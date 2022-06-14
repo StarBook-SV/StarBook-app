@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -57,6 +58,27 @@ public class MailDAO {
         }
         st.close();
         return mails;
+    }
+
+    public boolean deleteById(String idMail) throws SQLException {
+        String sql = "DELETE FROM MAIL WHERE ID_MAIL = ?";
+        PreparedStatement st = connection.prepareStatement(sql);
+        st.setString(1, idMail);
+        int rows = st.executeUpdate();
+        st.close();
+        return rows == 1;
+    }
+
+    public boolean addMail(Mail mail) throws SQLException {
+        String sql = "INSERT INTO MAIL (ID_USER_FROM, ID_USER_TO, MESSAGE, TIMESTAMP_M) VALUES (?, ?, ?, ?)";
+        PreparedStatement st = connection.prepareStatement(sql);
+        st.setInt(1, mail.getIdUserFrom());
+        st.setInt(2, mail.getIdUserTo());
+        st.setString(3, mail.getMessage());
+        st.setDate(4,DateUtils.toSqlDate(LocalDate.now()));
+        int rows = st.executeUpdate();
+        st.close();
+        return rows == 1;
     }
 
     private Mail fromResultSet(ResultSet res) throws SQLException {
