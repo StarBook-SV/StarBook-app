@@ -70,6 +70,38 @@ public class BookDAO {
         return findByParametric(id, "ID_AUTHOR");
     }
 
+    public Boolean addBook(Book book) throws SQLException{
+        String sql = "INSERT INTO BOOKS (ISBN, ID_AUTHOR, ID_GENRE, TITLE, DESCRIPTION, PAGES) VALUES (?,?,?,?,?,?)";
+
+        PreparedStatement st = connection.prepareStatement(sql);
+        st.setString(1, book.getISBN());
+        st.setInt(2, book.getId_author());
+        st.setInt(3, book.getId_genre());
+        st.setString(4, book.getTitle());
+        st.setString(5, book.getDescription());
+        st.setInt(6, book.getPages());
+
+        int rows = st.executeUpdate();
+        st.close();
+        return rows == 1;
+    }
+
+    public Boolean modifyBook(Book book) throws SQLException{
+        String sql = "UPDATE BOOKS SET ID_AUTHOR = ?, ID_GENRE = ?, TITLE = ?, DESCRIPTION = ?, PAGES = ? WHERE ISBN = ?";
+
+        PreparedStatement st = connection.prepareStatement(sql);
+        st.setString(6, book.getISBN());
+        st.setInt(1, book.getId_author());
+        st.setInt(2, book.getId_genre());
+        st.setString(3, book.getTitle());
+        st.setString(4, book.getDescription());
+        st.setInt(5, book.getPages());
+
+        int rows = st.executeUpdate();
+        st.close();
+        return rows == 1;
+    }
+
     private Book fromResultSet(ResultSet resultSet) throws SQLException{
         Book book = new Book();
 
