@@ -1,9 +1,6 @@
 package com.starbook.app.dao;
 
-import com.starbook.app.domain.Book;
-import com.starbook.app.domain.Genre;
-import com.starbook.app.domain.Review;
-import com.starbook.app.domain.UserLibrary;
+import com.starbook.app.domain.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -51,6 +48,41 @@ public class UserLibraryDAO {
         ResultSet res = st.executeQuery();
         st.close();
         return res.getInt(1);
+    }
+
+    public boolean deleteByUserAndISBN(Integer idUser, String ISBN) throws SQLException {
+        String sql = "DELETE FROM USERLIBRARY WHERE ISBN = ? and ID_USER = ?";
+        PreparedStatement st = connection.prepareStatement(sql);
+        st.setString(1, ISBN);
+        st.setInt(2, idUser);
+        int rows = st.executeUpdate();
+        st.close();
+        return rows == 1;
+
+    }
+
+    public boolean modifyStatusByUserAndISBN(UserLibrary userLibrary) throws SQLException {
+        String sql = "UPDATE USERLIBRARY SET STATUS=?, PAGE=? WHERE ISBN = ? and ID_USER = ?";
+        PreparedStatement st = connection.prepareStatement(sql);
+        st.setString(1, userLibrary.getStatus());
+        st.setInt(2, userLibrary.getPage());
+        st.setString(3, userLibrary.getISBN());
+        st.setInt(4, userLibrary.getIdUser());
+        int rows = st.executeUpdate();
+        st.close();
+        return rows == 1;
+    }
+
+    public boolean addUserLibrary(UserLibrary userLibrary) throws SQLException {
+        String sql = "INSERT INTO USERLIBRARY (ISBN, ID_USER, STATUS, PAGE) VALUES (?, ?, ?, ?)";
+        PreparedStatement st = connection.prepareStatement(sql);
+        st.setString(1, userLibrary.getISBN());
+        st.setInt(2, userLibrary.getIdUser());
+        st.setString(3, userLibrary.getStatus());
+        st.setInt(4, userLibrary.getPage());
+        int rows = st.executeUpdate();
+        st.close();
+        return rows == 1;
     }
 
     public Integer[] findStatusISBN(String ISBN) throws SQLException {
