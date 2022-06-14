@@ -59,6 +59,16 @@ public class MailDAO {
         return mails;
     }
 
+    public boolean deleteById(String idMail) throws SQLException {
+        String sql = "DELETE FROM MAIL WHERE ID_MAIL = ?";
+        PreparedStatement st = connection.prepareStatement(sql);
+        st.setString(1, idMail);
+        int rows = st.executeUpdate();
+        st.close();
+        return rows == 1;
+    }
+
+
     private Mail fromResultSet(ResultSet res) throws SQLException {
         Mail mail = new Mail();
         mail.setIdMail(res.getInt("ID_MAIL"));
