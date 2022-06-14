@@ -35,6 +35,7 @@ public class AuthorDAO {
         Author author = null;
 
         PreparedStatement st = connection.prepareStatement(sql);
+        st.setInt(1,id);
         ResultSet res = st.executeQuery();
 
         while(res.next()){
