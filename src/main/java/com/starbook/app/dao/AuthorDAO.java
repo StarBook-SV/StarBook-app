@@ -1,6 +1,7 @@
 package com.starbook.app.dao;
 
 import com.starbook.app.domain.Author;
+import com.starbook.app.util.DateUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -44,6 +45,24 @@ public class AuthorDAO {
         st.close();
         return Optional.ofNullable(author);
     }
+
+    public Boolean addAuthor(Author author) throws SQLException{
+        String sql = "INSERT INTO AUTHORS (A_NAME, BIOGRAPHY, BIRTHDATE, DEATHDATE, NACIONALITY) VALUES (?,?,?,?,?)";
+
+        PreparedStatement st = connection.prepareStatement(sql);
+        st.setString(1, author.getName());
+        st.setString(2, author.getBiography());
+        st.setDate(3, DateUtils.toSqlDate(author.getBirthdate()));
+        st.setDate(4, DateUtils.toSqlDate(author.getBirthdate()));
+        st.setString(5, author.getNacionality());
+
+        int rows = st.executeUpdate();
+        st.close();
+        return rows == 1;
+    }
+
+    //TODO: modifyAuthor
+    //TODO: deleteAuthor
 
     private Author fromResultSet(ResultSet resultSet) throws SQLException{
         Author author = new Author();
