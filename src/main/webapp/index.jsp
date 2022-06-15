@@ -1,4 +1,22 @@
+<%@ page import="com.starbook.app.dao.Database" %>
+<%@ page import="java.sql.Connection" %>
+<%@ page import="com.starbook.app.dao.BookDAO" %>
+<%@ page import="com.starbook.app.domain.Book" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.sql.SQLException" %>
 <html>
+<%
+    String n=(String)session.getAttribute("username");
+    String r=(String)session.getAttribute("role");
+    if(n != null){
+        //Si el usuario no es null, cambia unos datos
+    }
+
+    Database database = new Database();
+    Connection connection = database.getConnection();
+
+%>
 <head>
 
     <meta charset="utf-8">
@@ -84,8 +102,8 @@
                 <h1 class="fw-light">StarBook</h1>
                 <p class="lead text-muted">StarBook is your application to share your book reviews with other users.</p>
                 <p>
-                    <a href="#" class="btn btn-primary my-2">Search by gender </a>
-                    <a href="#" class="btn btn-secondary my-2">Search by writer</a>
+                    <a href="listGenres.jsp" class="btn btn-primary my-2">Search by genre </a>
+                    <a href="listAuthors.jsp" class="btn btn-secondary my-2">Search by author</a>
                 </p>
             </div>
         </div>
@@ -95,72 +113,48 @@
         <div class="container">
 
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <%
+                    BookDAO bookDAO = new BookDAO(connection);
+                    List<Book> books = new ArrayList<>();
+                    try{
+                        books = bookDAO.findAll();
+                    } catch (SQLException sqle){
+
+                    } finally {
+                        database.close();
+                    }
+                    for(Book book : books){
+                %>
                 <div class="col">
                     <div class="card shadow-sm">
                         <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
                              xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
                              preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
                             <rect width="100%" height="100%" fill="#55595c"/>
-                            <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
+                            <text x="50%" y="50%" fill="#eceeef" dy=".3em"><%=book.getTitle()%></text>
                         </svg>
 
                         <div class="card-body">
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                                additional content. This content is a little bit longer.</p>
+                            <p class="card-text"><%=book.getDescription()%></p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                    <%
+                                        if(r != null && r.equals("MGR")){
+                                            out.println("<a class=\"btn btn-sm btn-outline-secondary\" href=addBook?ISBN="+ book.getISBN() +" role=\"button\">Edit</a>");
+                                        }
+                                        out.println("<a class=\"btn btn-sm btn-outline-secondary\" href=bookDetails?ISBN="+ book.getISBN() +" role=\"button\">View</a>");
+                                    %>
+
                                 </div>
-                                <small class="text-muted">9 mins</small>
+                                <small class="text-muted"><%=book.getPages()%> pages</small>
+
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="card shadow-sm">
-                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
-                             xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
-                             preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
-                            <rect width="100%" height="100%" fill="#55595c"/>
-                            <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
-                        </svg>
-
-                        <div class="card-body">
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                                additional content. This content is a little bit longer.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                </div>
-                                <small class="text-muted">9 mins</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card shadow-sm">
-                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
-                             xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
-                             preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
-                            <rect width="100%" height="100%" fill="#55595c"/>
-                            <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
-                        </svg>
-
-                        <div class="card-body">
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                                additional content. This content is a little bit longer.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                </div>
-                                <small class="text-muted">9 mins</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <%
+                    }
+                %>
             </div>
         </div>
     </div>

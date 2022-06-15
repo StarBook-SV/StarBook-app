@@ -31,6 +31,8 @@ public class BookDAO {
         return books;
     }
 
+    //TODO: Probar con paginacion
+
     public Optional<Book> findByISBN(String isbn) throws SQLException{
         String sql = "SELECT * FROM BOOKS WHERE ISBN = ?";
         Book book = null;
