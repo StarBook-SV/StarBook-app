@@ -89,6 +89,25 @@
             white-space: nowrap;
             -webkit-overflow-scrolling: touch;
         }
+        .img-card-s{
+            object-fit: scale-down;
+            max-height: 300px;
+        }
+        .card-body{
+            height: 360px ;
+                    }
+        .d2-flex {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .book-title{
+            margin-left: 5%;
+        }
+        .w100{
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -127,17 +146,16 @@
                 %>
                 <div class="col">
                     <div class="card shadow-sm">
-                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
-                             xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
-                             preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
-                            <rect width="100%" height="100%" fill="#55595c"/>
-                            <text x="50%" y="50%" fill="#eceeef" dy=".3em"><%=book.getTitle()%></text>
-                        </svg>
+                        <object class="card-img-top img-card-s" data="https://covers.openlibrary.org/b/isbn/<%=book.getISBN()%>-M.jpg?default=false" type="image/jpg" alt="<%=book.getTitle()%>" title="<%=book.getTitle()%>"  width="100%" height="100%">
+                            <img class="card-img-top img-card-s" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png" height="100%" width="100%"/>
+                        </object>
+                        <h2 class="book-title"><%=book.getTitle()%></h2>
+                     <!--<text x="50%" y="50%" fill="#eceeef" dy=".3em"><%=book.getTitle()%></text>-->
 
-                        <div class="card-body">
+                        <div class="card-body d2-flex">
                             <p class="card-text"><%=book.getDescription()%></p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
+                            <div class="d-flex justify-content-between align-items-center flex-row w100" >
+                                <div class="btn-group" >
                                     <%
                                         if(r != null && r.equals("MGR")){
                                             out.println("<a class=\"btn btn-sm btn-outline-secondary\" href=addBook?ISBN="+ book.getISBN() +" role=\"button\">Edit</a>");
