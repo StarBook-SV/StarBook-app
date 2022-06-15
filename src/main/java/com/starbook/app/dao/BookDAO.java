@@ -72,6 +72,21 @@ public class BookDAO {
         return findByParametric(id, "ID_AUTHOR");
     }
 
+    public List<Book> findByName(String name) throws SQLException{
+        String sql = "SELECT * FROM BOOKS WHERE INSTR(TITLE, ?) != 0";
+        List<Book> books = new ArrayList<>();
+
+        PreparedStatement st = connection.prepareStatement(sql);
+        st.setString(1,name);
+        ResultSet res = st.executeQuery();
+        while(res.next()){
+            Book book = fromResultSet(res);
+            books.add(book);
+        }
+        st.close();
+        return books;
+    }
+
     public Boolean addBook(Book book) throws SQLException{
         String sql = "INSERT INTO BOOKS (ISBN, ID_AUTHOR, ID_GENRE, TITLE, DESCRIPTION, PAGES) VALUES (?,?,?,?,?,?)";
 
