@@ -18,6 +18,34 @@
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+    <style>
+        .form-signin {
+            width: 100%;
+            max-width: 700px;
+            padding: 15px;
+            margin: auto;
+        }
+
+
+        .form-signin .form-floating:focus-within {
+            z-index: 2;
+        }
+
+        .form-signin input[type="text"] {
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        .form-signin input[type="password"] {
+            margin-bottom: -1px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+    </style>
+
+
 </head>
 
 <body>
@@ -38,43 +66,38 @@
 <header>
     <jsp:include page="header.jsp"/>
 </header>
-<h2>
-    <p class="text-center">Register to StarApp</p>
-</h2>
-<div class="container">
-    <form class="container">
-        <div class="form-group row">
-            <label for="name" class="col-sm-2 col-form-label">Full Name</label>
-            <div class="col-sm-10">
+
+<h2 class="text-center">Register to StarApp</h2>
+
+<main class = "form-signin">
+    <div class="container">
+        <form class="form-signin">
+            <div class="form-floating">
                 <input type="text" class="form-control" id="name" name="name" required>
+                <label for="name">Full Name</label>
             </div>
-        </div>
-        <div class="form-group row">
-            <label for="username" class="col-sm-2 col-form-label">Username</label>
-            <div class="col-sm-10">
+            <div class="form-floating">
                 <input type="text" class="form-control" id="username" name="username" required>
+                <label for="username" class="col-sm-2 col-form-label">Username</label>
             </div>
-        </div>
-        <div class="form-group row">
-            <label for="password" class="col-sm-2 col-form-label">Password</label>
-            <div class="col-sm-10">
+            <div class="form-floating">
                 <input type="password" class="form-control" id="password" name="password" required>
+                <label for="password">Password</label>
             </div>
-        </div>
-        <div class="form-group row">
-            <label for="e-mail" class="col-sm-2 col-form-label">e-mail</label>
-            <div class="col-sm-10">
+            <div class="form-floating">
                 <input type="email" class="form-control" id="e-mail" name="e-mail" required>
+                <label for="e-mail">e-mail</label>
             </div>
-        </div>
-        <small class="form-text text-muted">By clicking on "Register" you agree to the terms and conditions of
-            StarBook</small>
-        <div class="form-group row">
-            <button type="submit" class="btn btn-primary">Register</button>
-        </div>
-    </form>
-    <div id="result"></div>
-</div>
+            <small class="form-text text-muted">By clicking on "Register" you agree to the terms and conditions of
+                StarBook</small>
+            <div class="form-group row">
+                <button type="submit" class="btn btn-primary">Register</button>
+            </div>
+        </form>
+        <div id="result"></div>
+    </div>
+</main>
+
 <footer>
     <jsp:include page="footer.jsp"/>
 </footer>
