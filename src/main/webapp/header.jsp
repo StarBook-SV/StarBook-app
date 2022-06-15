@@ -29,7 +29,7 @@
                             <a class="nav-link active" aria-current="page" href="#">Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Register</a>
+                            <a class="nav-link" href="login.jsp">Register</a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="navbar-brand d-flex align-items-center">
