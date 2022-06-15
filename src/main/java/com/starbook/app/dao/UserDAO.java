@@ -64,6 +64,19 @@ public class UserDAO {
         return Optional.ofNullable(user);
     }
 
+    public Optional<User> findByUsername(String username) throws SQLException {
+        String sql = "SELECT * FROM USERS WHERE upper(USERNAME) = Upper(?)";
+        User user = null;
+        PreparedStatement st = connection.prepareStatement(sql);
+        st.setString(1, username);
+        ResultSet res = st.executeQuery();
+        while (res.next()) {
+            user = fromResultSet(res);
+        }
+        st.close();
+        return Optional.ofNullable(user);
+    }
+
     public Optional<User> login(String username, String password) throws SQLException {
         String sql = "SELECT * FROM USERS WHERE USERNAME = ? AND PASWORD = ?";
         User user = null;
