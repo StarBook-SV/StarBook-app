@@ -26,10 +26,10 @@
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Login</a>
+                            <a class="nav-link active" aria-current="page" href="login.jsp">Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="login.jsp">Register</a>
+                            <a class="nav-link" href="#">Register</a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="navbar-brand d-flex align-items-center">
@@ -48,7 +48,7 @@
             </div>
         </div>
     </nav>
-</main>
+
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 </body>

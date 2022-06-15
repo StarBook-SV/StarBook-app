@@ -1,6 +1,5 @@
 <html>
 <head>
-    <jsp:include page="header.jsp"/>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -67,6 +66,9 @@
     </style>
 </head>
 <body>
+<header>
+    <jsp:include page="header.jsp"/>
+</header>
     <main>
         <section class="py-5 text-center container">
             <div class="row py-lg-5">
