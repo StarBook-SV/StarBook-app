@@ -99,7 +99,7 @@
             %>
             <article class="search-result row">
                 <div class="col-xs-12 col-sm-12 col-md-3">
-                    <a href="#" title="<%=book.getTitle()%>" class="thumbnail"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/240px-No_image_available.svg.png" alt="<%=book.getTitle()%>" /></a>
+                    <a href="bookDetails.jsp?ISBN=<%=book.getISBN()%>" title="<%=book.getTitle()%>" class="thumbnail"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/240px-No_image_available.svg.png" alt="<%=book.getTitle()%>" /></a>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-2">
                     <ul class="meta-search">
@@ -108,7 +108,7 @@
                     </ul>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-7 excerpet">
-                    <h3><a href="#" title=""><%=book.getTitle()%></a></h3>
+                    <h3><a href="bookDetails.jsp?ISBN=<%=book.getISBN()%>" title=""><%=book.getTitle()%></a></h3>
                     <p><%=book.getDescription()%></p>
                 </div>
                 <span class="clearfix borda"></span>
