@@ -4,17 +4,48 @@
 <%@ page import="com.starbook.app.domain.Genre" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="java.util.Objects" %>
+<%@ page import="com.starbook.app.dao.BookDAO" %>
+<%@ page import="com.starbook.app.domain.Book" %>
+<%@ page import="com.starbook.app.dao.AuthorDAO" %>
+<%@ page import="com.starbook.app.domain.Author" %>
 
 
 <!DOCTYPE html>
 <html lang="es">
 
 <%
-    String n=(String)session.getAttribute("role");
+    Database database = new Database();
+    String n = (String) session.getAttribute("role");
     if (!Objects.equals(n, "MGR")) {
         String redirectURL = "index.jsp";
         response.sendRedirect(redirectURL);
     }
+    boolean edit = false;
+    Book book = null;
+    Author author = null;
+    Genre genre = null;
+    BookDAO bookDAO = new BookDAO(database.getConnection());
+    try {
+        if (request.getParameter("ISBN") != null) {
+            edit = true;
+            AuthorDAO authorDAO = new AuthorDAO(database.getConnection());
+            GenreDAO genreDAO = new GenreDAO(database.getConnection());
+            try {
+                if (bookDAO.findByISBN(request.getParameter("ISBN")).isPresent()) {
+                    book = bookDAO.findByISBN(request.getParameter("ISBN")).get();
+                    if (authorDAO.findByID(book.getId_author()).isPresent())
+                        author = authorDAO.findByID(book.getId_author()).get();
+                    if (genreDAO.findById(book.getId_genre()).isPresent())
+                        genre = genreDAO.findById(book.getId_genre()).get();
+                }
+            } catch (SQLException e) {
+            }
+        }
+    } finally {
+        database.close();
+    }
+
+
 %>
 
 <head>
@@ -51,42 +82,52 @@
         <div class="form-group row">
             <label for="ISBN" class="col-sm-2 col-form-label">ISBN</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="ISBN" name="ISBN" required>
+                <input type="text" class="form-control" id="ISBN" name="ISBN"
+                       <% if (edit){ %>value="<%=book.getISBN()%>" readonly <%}%> required>
             </div>
         </div>
         <div class="form-group row">
             <label for="title" class="col-sm-2 col-form-label">Title</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="title" name="title" required>
+                <input type="text" class="form-control" id="title" name="title"
+                       <% if (edit){ %>value="<%=book.getTitle()%>"<%}%> required>
             </div>
         </div>
         <div class="form-group row">
             <label for="author" class="col-sm-2 col-form-label">Author</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="author" name="author" required>
+                <input type="text" class="form-control" id="author" name="author"
+                       <% if (edit){ %>value="<%= author.getName()%>"<%}%> required>
             </div>
         </div>
         <div class="form-group row">
             <label for="genre" class="col-sm-2 col-form-label">Genre</label>
             <div class="col-sm-10">
                 <select class="form-select" id="genre" name="genre" required> >
+                    <% if (edit) { %>
+                    <option selected value="<%= book.getId_genre()%>"> <%= genre.getName()%>
+                            <% }
+                        else {
+                              %>
                     <option selected>Select Genre</option>
                     <%
-                        Database database = new Database();
+                        }
+                    %>
+                    <%
                         GenreDAO genreDAO = new GenreDAO(database.getConnection());
                         try {
                             ArrayList<Genre> genres = genreDAO.findAll();
-                            for (Genre genre : genres) {
+                            for (Genre genre1 : genres) {
                     %>
-                    <option value=<%= genre.getId_genre() %>><%= genre.getName() %>
+                    <option value=<%= genre1.getId_genre() %>><%= genre1.getName() %>
                     </option>
                     <%
                             }
                         } catch (SQLException e) {
                             throw new RuntimeException(e);
                         } finally {
-                                database.close();
-                            }
+                            database.close();
+                        }
                     %>
                 </select>
             </div>
@@ -96,17 +137,27 @@
         <div class="form-group row">
             <label for="description" class="col-sm-2 col-form-label">Description</label>
             <div class="col-sm-10">
-                <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                <textarea class="form-control" id="description" name="description" rows="3"
+                ><% if (edit) { %> <%=book.getDescription()%><%}%></textarea>
             </div>
         </div>
         <div class="form-group row">
             <label for="pages" class="col-sm-2 col-form-label">Nº of pages</label>
             <div class="col-sm-10">
-                <input type="number" class="form-control" id="pages" name="pages" required>
+                <input type="number" class="form-control" id="pages" name="pages"
+                       <% if (edit){ %>value="<%= book.getPages()%>" <%}%>required>
             </div>
         </div>
+
+        <input type="hidden" class="hidden" id="edit" name="edit" value="<%=edit%>">
+
         <div class="form-group row">
-            <button type="submit" class="btn btn-primary">Add book</button>
+            <button type="submit" class="btn btn-primary">
+
+                <% if (edit) { %>
+                Edit book <% } else { %>
+                Add book <% } %>
+            </button>
         </div>
     </form>
     <div id="result"></div>

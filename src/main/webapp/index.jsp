@@ -158,7 +158,7 @@
                                 <div class="btn-group" >
                                     <%
                                         if(r != null && r.equals("MGR")){
-                                            out.println("<a class=\"btn btn-sm btn-outline-secondary\" href=addBook?ISBN="+ book.getISBN() +" role=\"button\">Edit</a>");
+                                            out.println("<a class=\"btn btn-sm btn-outline-secondary\" href=addBook.jsp?ISBN="+ book.getISBN() +" role=\"button\">Edit</a>");
                                         }
                                         out.println("<a class=\"btn btn-sm btn-outline-secondary\" href=bookDetails?ISBN="+ book.getISBN() +" role=\"button\">View</a>");
                                     %>
