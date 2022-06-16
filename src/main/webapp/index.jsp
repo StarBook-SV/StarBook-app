@@ -131,12 +131,13 @@
     <div class="album py-5 bg-light">
         <div class="container">
 
+            <h2>Last added books</h2>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 <%
                     BookDAO bookDAO = new BookDAO(connection);
                     List<Book> books = new ArrayList<>();
                     try{
-                        books = bookDAO.findAll();
+                        books = bookDAO.getLastBooks();
                     } catch (SQLException sqle){
 
                     } finally {
