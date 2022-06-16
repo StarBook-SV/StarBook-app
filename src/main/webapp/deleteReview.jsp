@@ -23,13 +23,6 @@
 </head>
 
 <body>
-<%
-  Database database = new Database();
-  Connection connection = database.getConnection();
-  ReviewDAO reviewDAO = new ReviewDAO(connection);
-  Review review = reviewDAO.findByIdReview(Integer.parseInt(request.getParameter("id"))).get();
-
-%>
 <script type="text/javascript">
   $(document).ready(function() {
     $("form").on("submit", function(event) {
