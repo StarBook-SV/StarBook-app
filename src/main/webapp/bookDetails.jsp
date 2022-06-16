@@ -168,6 +168,8 @@
             background: #b36800;
             color: #fff; }
 
+
+
         @-webkit-keyframes opacity {
             0% {
                 opacity: 0;
@@ -187,6 +189,42 @@
                 opacity: 1;
                 -webkit-transform: scale(1);
                 transform: scale(1); } }
+        .pagination {
+            display: block;
+            width: 75%;
+            margin: 1em auto;
+            text-align: center;
+            justify-content: center;
+        }
+        .pagination:after {
+            content: "";
+            clear: both;
+        }
+
+        .pagination-button {
+            display: inline-block;
+            padding: 5px 10px;
+            border: 1px solid #e0e0e0;
+            background-color: #eee;
+            color: #333;
+            cursor: pointer;
+            transition: background 0.1s, color 0.1s;
+        }
+        .pagination-button:hover {
+            background-color: #ddd;
+            color: #3366cc;
+        }
+        .pagination-button.active {
+            background-color: #bbb;
+            border-color: #bbb;
+            color: #3366cc;
+        }
+        .pagination-button:first-of-type {
+            border-radius: 18px 0 0 18px;
+        }
+        .pagination-button:last-of-type {
+            border-radius: 0 18px 18px 0;
+        }
     </style>
 </head>
 <body>
