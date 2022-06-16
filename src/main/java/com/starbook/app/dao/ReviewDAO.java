@@ -49,7 +49,7 @@ public class ReviewDAO {
 
 
     public ArrayList<Review> findAllByUserId(Integer idUser) throws SQLException {
-        String sql = "SELECT * FROM REVIEWS where ID_USER=?";
+        String sql = "SELECT * FROM REVIEWS where ID_USER=? ORDER BY ID_REVIEW DESC";
         ArrayList<Review> reviews = new ArrayList<>();
         PreparedStatement st = connection.prepareStatement(sql);
         st.setInt(1, idUser);
