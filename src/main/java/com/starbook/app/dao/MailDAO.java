@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -33,7 +34,7 @@ public class MailDAO {
 
 
     public ArrayList<Mail> findAll() throws SQLException {
-        String sql = "SELECT * FROM MAIL";
+        String sql = "SELECT * FROM MAIL order by TIMESTAMP_M DESC";
         ArrayList<Mail> mails = new ArrayList<>();
         PreparedStatement st = connection.prepareStatement(sql);
         ResultSet res = st.executeQuery();
@@ -46,7 +47,7 @@ public class MailDAO {
     }
 
     public ArrayList<Mail> findAllByUserId(Integer idUser) throws SQLException {
-        String sql = "SELECT * FROM MAIL where ID_USER_FROM=? or ID_USER_TO = ? order by TIMESTAMP_M";
+        String sql = "SELECT * FROM MAIL where ID_USER_FROM=? or ID_USER_TO = ? order by TIMESTAMP_M DESC";
         ArrayList<Mail> mails = new ArrayList<>();
         PreparedStatement st = connection.prepareStatement(sql);
         st.setInt(1, idUser);
@@ -75,7 +76,7 @@ public class MailDAO {
         st.setInt(1, mail.getIdUserFrom());
         st.setInt(2, mail.getIdUserTo());
         st.setString(3, mail.getMessage());
-        st.setDate(4,DateUtils.toSqlDate(LocalDate.now()));
+        st.setTimestamp(4,DateUtils.toSqlDatetime(LocalDateTime.now()));
         int rows = st.executeUpdate();
         st.close();
         return rows == 1;
@@ -87,7 +88,7 @@ public class MailDAO {
         mail.setIdUserFrom(res.getInt("ID_USER_FROM"));
         mail.setIdUserTo(res.getInt("ID_USER_TO"));
         mail.setMessage(res.getString("MESSAGE"));
-        mail.setTimestamp(DateUtils.toLocalDate(res.getDate("TIMESTAMP_M")));
+        mail.setTimestamp(DateUtils.toLocalDateTime(res.getTimestamp("TIMESTAMP_M")));
         return mail;
     }
 }
