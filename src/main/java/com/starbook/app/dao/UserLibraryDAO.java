@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class UserLibraryDAO {
     private Connection connection;
@@ -108,6 +109,22 @@ public class UserLibraryDAO {
         userLibrary.setISBN(res.getString("ISBN"));
         userLibrary.setStatus(res.getString("STATUS"));
         userLibrary.setPage(res.getInt("PAGE"));
+        return userLibrary;
+    }
+
+    public UserLibrary findByISBNandUser(String ISBN, Integer idUser) throws SQLException {
+        String sql = "SELECT * FROM USERLIBRARY where UPPER(ISBN)=UPPER(?) AND ID_USER = ?";
+        PreparedStatement st = connection.prepareStatement(sql);
+        st.setString(1, ISBN);
+        st.setInt(2, idUser);
+        ResultSet res = st.executeQuery();
+
+        UserLibrary userLibrary = null;
+
+        while (res.next()) {
+            userLibrary = fromResultSet(res);
+        }
+        st.close();
         return userLibrary;
     }
 }
