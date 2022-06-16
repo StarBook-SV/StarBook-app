@@ -31,7 +31,20 @@ public class BookDAO {
         return books;
     }
 
-    //TODO: Probar con paginacion
+    public List<Book> getLastBooks() throws SQLException {
+        String sql = "SELECT * FROM LASTBOOKS";
+        List<Book> books = new ArrayList<>();
+
+        PreparedStatement st = connection.prepareStatement(sql);
+        ResultSet res = st.executeQuery();
+
+        while(res.next()){
+            Book book = fromResultSet(res);
+            books.add(book);
+        }
+        st.close();
+        return books;
+    }
 
     public Optional<Book> findByISBN(String isbn) throws SQLException{
         String sql = "SELECT * FROM BOOKS WHERE ISBN = ?";

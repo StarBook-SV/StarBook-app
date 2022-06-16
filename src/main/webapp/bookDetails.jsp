@@ -52,7 +52,7 @@
         database.close();
     }
     Integer sum = 0;
-    if(book != null) {
+    if(book != null && reviews.size() != 0) {
         for (Review review : reviews) {
             sum += review.getStars();
         }

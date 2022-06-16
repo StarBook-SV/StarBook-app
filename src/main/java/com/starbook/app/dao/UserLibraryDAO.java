@@ -38,7 +38,7 @@ public class UserLibraryDAO {
         st.setString(2, status);
         ResultSet res = st.executeQuery();
         st.close();
-        return res.getInt(1);
+        return res.getInt("COUNT(ISBN)");
     }
 
     private Integer findByUserAndStatus(Integer idUser, String status) throws SQLException {
@@ -47,8 +47,12 @@ public class UserLibraryDAO {
         st.setInt(1, idUser);
         st.setString(2, status);
         ResultSet res = st.executeQuery();
+        Integer count = 0;
+        while (res.next()){
+            count = res.getInt("COUNT(ISBN)");
+        }
         st.close();
-        return res.getInt(1);
+        return count;
     }
 
     public boolean deleteByUserAndISBN(Integer idUser, String ISBN) throws SQLException {
@@ -94,11 +98,11 @@ public class UserLibraryDAO {
         return count;
     }
 
-    public Integer[] findStatusUser(Integer idUser) throws SQLException {
-        Integer[] count = new Integer[3];
-        count[0] = findByUserAndStatus(idUser, "PENDING");
-        count[1] = findByUserAndStatus(idUser, "READING");
-        count[2] = findByUserAndStatus(idUser, "READ");
+    public List<Integer> findStatusUser(Integer idUser) throws SQLException {
+        List<Integer> count= new ArrayList<>();
+        count.add(findByUserAndStatus(idUser, "PENDING"));
+        count.add(findByUserAndStatus(idUser, "READING"));
+        count.add(findByUserAndStatus(idUser, "READ"));
         return count;
     }
 
