@@ -1,15 +1,16 @@
 package com.starbook.app.domain;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Mail {
     private Integer idMail;
     private Integer idUserFrom;
     private Integer idUserTo;
-    private LocalDate timestamp;
+    private LocalDateTime timestamp;
     private String message;
 
-    public Mail(Integer idMail, Integer idUserFrom, Integer idUserTo, LocalDate timestamp, String message) {
+    public Mail(Integer idMail, Integer idUserFrom, Integer idUserTo, LocalDateTime timestamp, String message) {
         this.idMail = idMail;
         this.idUserFrom = idUserFrom;
         this.idUserTo = idUserTo;
@@ -55,11 +56,11 @@ public class Mail {
         this.idUserTo = idUserTo;
     }
 
-    public LocalDate getTimestamp() {
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(LocalDate timestamp) {
+    public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
 

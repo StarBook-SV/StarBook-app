@@ -1,8 +1,10 @@
 package com.starbook.app.util;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 
 public class DateUtils {
 
@@ -29,12 +31,30 @@ public class DateUtils {
         return toLocalDate(toUtilDate(date));
     }
 
+    public static LocalDateTime toLocalDateTime(java.sql.Timestamp timestamp) {
+        return timestamp.toLocalDateTime();
+    }
+
+    public static String formatterLocalDateTime(LocalDateTime localDateTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return localDateTime.format(formatter);
+    }
+
     public static java.sql.Date toSqlDate(LocalDate localDate) {
         return new java.sql.Date(toDate(localDate).getTime());
     }
 
     public static java.sql.Date toSqlDate(java.util.Date date) {
         return new java.sql.Date(date.getTime());
+    }
+
+    public static java.sql.Timestamp toSqlDatetime(LocalDateTime localDateTime) {
+        return java.sql.Timestamp.valueOf(localDateTime);
+    }
+
+
+    public static java.sql.Timestamp toSqlDateTime(java.util.Date date) {
+        return new java.sql.Timestamp(date.getTime());
     }
 
     public static java.util.Date toUtilDate(java.sql.Date date) {

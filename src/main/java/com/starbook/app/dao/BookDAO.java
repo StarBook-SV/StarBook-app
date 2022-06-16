@@ -31,6 +31,21 @@ public class BookDAO {
         return books;
     }
 
+    public List<Book> getLastBooks() throws SQLException {
+        String sql = "SELECT * FROM LASTBOOKS";
+        List<Book> books = new ArrayList<>();
+
+        PreparedStatement st = connection.prepareStatement(sql);
+        ResultSet res = st.executeQuery();
+
+        while(res.next()){
+            Book book = fromResultSet(res);
+            books.add(book);
+        }
+        st.close();
+        return books;
+    }
+
     public Optional<Book> findByISBN(String isbn) throws SQLException{
         String sql = "SELECT * FROM BOOKS WHERE ISBN = ?";
         Book book = null;
@@ -68,6 +83,21 @@ public class BookDAO {
 
     public List<Book> findByAuthor(Integer id) throws SQLException{
         return findByParametric(id, "ID_AUTHOR");
+    }
+
+    public List<Book> findByName(String name) throws SQLException{
+        String sql = "SELECT * FROM BOOKS WHERE INSTR(TITLE, ?) != 0";
+        List<Book> books = new ArrayList<>();
+
+        PreparedStatement st = connection.prepareStatement(sql);
+        st.setString(1,name);
+        ResultSet res = st.executeQuery();
+        while(res.next()){
+            Book book = fromResultSet(res);
+            books.add(book);
+        }
+        st.close();
+        return books;
     }
 
     public Boolean addBook(Book book) throws SQLException{
