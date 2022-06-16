@@ -13,12 +13,6 @@
         String redirectURL = "index.jsp";
         response.sendRedirect(redirectURL);
     }
-    Database database = new Database();
-    UserDAO userDAO = new UserDAO(database.getConnection());
-    User userFrom = null;
-    User userTo = null;
-    MailDAO mailDAO = new MailDAO(database.getConnection());
-    Mail mail = null;
 
 
 %>

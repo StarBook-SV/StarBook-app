@@ -81,7 +81,9 @@
         } else response.sendRedirect("notFound.jsp");
     } catch (SQLException e) {
         throw new RuntimeException(e);
-    }
+    }finally {
+            database.close();
+        }
 %>
 
 <div class="container">

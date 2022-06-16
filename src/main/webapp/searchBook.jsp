@@ -33,6 +33,8 @@
 
         } catch (SQLException e) {
 
+        } finally {
+            database.close();
         }
 
         Map<Integer, Author> listAuthor = new HashMap<>();

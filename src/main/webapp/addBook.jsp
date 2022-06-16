@@ -85,7 +85,8 @@
                         } catch (SQLException e) {
                             throw new RuntimeException(e);
                         } finally {
-                        }
+                                database.close();
+                            }
                     %>
                 </select>
             </div>
