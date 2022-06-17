@@ -1,140 +1,261 @@
-CREATE TABLE AUTHORS(
-ID_AUTHOR NUMBER,
-A_NAME VARCHAR2(100),
-BIOGRAPHY VARCHAR2(500),
-BIRTHDATE DATE,
-DEATHDATE DATE,
-NACIONALITY VARCHAR2(100),
-CONSTRAINT PK_ID_AUTHOR PRIMARY KEY(ID_AUTHOR)
+
+create table AUTHORS
+(
+    ID_AUTHOR   NUMBER not null
+        constraint PK_ID_AUTHOR
+            primary key,
+    A_NAME      VARCHAR2(100),
+    BIOGRAPHY   VARCHAR2(500),
+    BIRTHDATE   DATE,
+    DEATHDATE   DATE,
+    NACIONALITY VARCHAR2(100)
 );
 
-CREATE TABLE USERS(
-ID_USER NUMBER,
-U_NAME VARCHAR2(100),
-USERNAME VARCHAR2(50),
-PASWORD VARCHAR2(50),
-BIOGRAPHY VARCHAR2(500),
-EMAIL VARCHAR2(100),
-ROLE VARCHAR(10),
-CONSTRAINT PK_ID_USER PRIMARY KEY(ID_USER)
+create table USERS
+(
+    ID_USER   NUMBER not null
+        constraint PK_ID_USER
+            primary key,
+    U_NAME    VARCHAR2(100),
+    USERNAME  VARCHAR2(50),
+    PASWORD   VARCHAR2(50),
+    BIOGRAPHY VARCHAR2(500) default ' ',
+    EMAIL     VARCHAR2(100),
+    ROLE      VARCHAR2(10)  default 'USER'
 );
 
-CREATE TABLE GENRES(
-ID_GENRE NUMBER,
-G_NAME VARCHAR2(100),
-DESCRIPTION VARCHAR2(500),
-CONSTRAINT PK_ID_GENRE PRIMARY KEY(ID_GENRE)
+
+create table GENRES
+(
+    ID_GENRE    NUMBER not null
+        constraint PK_ID_GENRE
+            primary key,
+    G_NAME      VARCHAR2(100),
+    DESCRIPTION VARCHAR2(500)
 );
 
-CREATE TABLE BOOKS(
-ISBN VARCHAR2(30),
-ID_AUTHOR NUMBER,
-ID_GENRE NUMBER,
-TITLE VARCHAR2(100),
-DESCRIPTION VARCHAR2(500),
-PAGES NUMBER,
-CONSTRAINT PK_ISBN PRIMARY KEY(ISBN),
-CONSTRAINT FK_ID_AUTHOR_BOOKS FOREIGN KEY(ID_AUTHOR) REFERENCES AUTHORS,
-CONSTRAINT FK_ID_GENRE_BOOKS FOREIGN KEY(ID_GENRE) REFERENCES GENRES
+
+create table BOOKS
+(
+    ISBN        VARCHAR2(30) not null
+        constraint PK_ISBN
+            primary key,
+    ID_AUTHOR   NUMBER
+        constraint FK_ID_AUTHOR_BOOKS
+            references AUTHORS,
+    ID_GENRE    NUMBER
+        constraint FK_ID_GENRE_BOOKS
+            references GENRES,
+    TITLE       VARCHAR2(100),
+    DESCRIPTION VARCHAR2(500),
+    PAGES       NUMBER
 );
 
-CREATE TABLE REVIEWS(
-ID_REVIEW NUMBER,
-ISBN VARCHAR2(30),
-ID_USER NUMBER,
-TITLE VARCHAR2(50),
-DESCRIPTION VARCHAR(500),
-STARS NUMBER,
-CONSTRAINT PK_ID_REVIEW PRIMARY KEY(ID_REVIEW),
-CONSTRAINT FK_ISBN_REVIEWS FOREIGN KEY(ISBN) REFERENCES BOOKS,
-CONSTRAINT FK_ID_USER_BOOKS FOREIGN KEY(ID_USER) REFERENCES USERS
+create table REVIEWS
+(
+    ID_REVIEW   NUMBER not null
+        constraint PK_ID_REVIEW
+            primary key,
+    ISBN        VARCHAR2(30)
+        constraint FK_ISBN_REVIEWS
+            references BOOKS,
+    ID_USER     NUMBER
+        constraint FK_ID_USER_BOOKS
+            references USERS,
+    TITLE       VARCHAR2(50),
+    DESCRIPTION VARCHAR2(500),
+    STARS       NUMBER
 );
 
-CREATE TABLE USERLIBRARY(
-ISBN VARCHAR2(30),
-ID_USER NUMBER,
-STATUS VARCHAR2(30),
-PAGE NUMBER,
-CONSTRAINT FK_ISBN_USERLIBRARY FOREIGN KEY(ISBN) REFERENCES BOOKS,
-CONSTRAINT FK_ID_USER_USERLIBRARY FOREIGN KEY(ID_USER) REFERENCES USERS
+
+create table USERLIBRARY
+(
+    ISBN    VARCHAR2(30)
+        constraint FK_ISBN_USERLIBRARY
+            references BOOKS,
+    ID_USER NUMBER
+        constraint FK_ID_USER_USERLIBRARY
+            references USERS,
+    STATUS  VARCHAR2(30),
+    PAGE    NUMBER
 );
 
-CREATE TABLE MAIL(
-ID_MAIL NUMBER,
-ID_USER_FROM NUMBER,
-ID_USER_TO NUMBER,
-TIMESTAMP_M DATE,
-CONSTRAINT FK_ID_USER_FROM_MAIL FOREIGN KEY(ID_USER_FROM) REFERENCES USERS,
-CONSTRAINT FK_ID_USER_TO_MAIL FOREIGN KEY(ID_USER_TO) REFERENCES USERS
+create table MAIL
+(
+    ID_MAIL      NUMBER,
+    ID_USER_FROM NUMBER
+        constraint FK_ID_USER_FROM_MAIL
+            references USERS,
+    ID_USER_TO   NUMBER
+        constraint FK_ID_USER_TO_MAIL
+            references USERS,
+    TIMESTAMP_M  DATE,
+    MESSAGE      VARCHAR2(500)
 );
 
-CREATE SEQUENCE SEQUENCE_AUTHORS
-START WITH 1
-INCREMENT BY 1
-NOMINVALUE
-NOMAXVALUE;
+create sequence SEQUENCE_AUTHORS
+start with 1
+increment by 1
+nominvalue
+nomaxvalue;
 
-CREATE OR REPLACE TRIGGER TRIGGER_ID_AUTHORS
-BEFORE INSERT ON AUTHORS
-FOR EACH ROW
-BEGIN
-    SELECT SEQUENCE_AUTHORS.NEXTVAL INTO :NEW.ID_AUTHOR FROM dual;
-END;
+create or replace trigger TRIGGER_ID_AUTHORS
+before insert on AUTHORS
+for each row
+begin
+    select SEQUENCE_AUTHORS.nextval into :NEW.ID_AUTHOR from dual;
+end;
 /
 
-CREATE SEQUENCE SEQUENCE_USERS
-START WITH 1
-INCREMENT BY 1
-NOMINVALUE
-NOMAXVALUE;
+create sequence SEQUENCE_USERS
+start with 1
+increment by 1
+nominvalue
+nomaxvalue;
 
-CREATE OR REPLACE TRIGGER TRIGGER_ID_USERS
-BEFORE INSERT ON USERS
-FOR EACH ROW
-BEGIN
-    SELECT SEQUENCE_USERS.NEXTVAL INTO :NEW.ID_USER FROM dual;
-END;
+create or replace trigger TRIGGER_ID_USERS
+before insert on USERS
+for each row
+begin
+    select SEQUENCE_USERS.nextval into :NEW.ID_USER from dual;
+end;
 /
 
-CREATE SEQUENCE SEQUENCE_GENRES
-START WITH 1
-INCREMENT BY 1
-NOMINVALUE
-NOMAXVALUE;
+create sequence SEQUENCE_GENRES
+start with 1
+increment by 1
+nominvalue
+nomaxvalue;
 
-CREATE OR REPLACE TRIGGER TRIGGER_ID_GENRES
-BEFORE INSERT ON GENRES
-FOR EACH ROW
-BEGIN
-    SELECT SEQUENCE_GENRES.NEXTVAL INTO :NEW.ID_GENRE FROM dual;
-END;
+create or replace trigger TRIGGER_ID_GENRES
+before insert on GENRES
+for each row
+begin
+    select SEQUENCE_GENRES.nextval into :NEW.ID_GENRE from dual;
+end;
 /
 
-CREATE SEQUENCE SEQUENCE_REVIEWS
-START WITH 1
-INCREMENT BY 1
-NOMINVALUE
-NOMAXVALUE;
+create sequence SEQUENCE_REVIEWS
+start with 1
+increment by 1
+nominvalue
+nomaxvalue;
 
-CREATE OR REPLACE TRIGGER TRIGGER_ID_REVIEWS
-BEFORE INSERT ON REVIEWS
-FOR EACH ROW
-BEGIN
-    SELECT SEQUENCE_REVIEWS.NEXTVAL INTO :NEW.ID_REVIEW FROM dual;
-END;
+create or replace trigger TRIGGER_ID_REVIEWS
+before insert on REVIEWS
+for each row
+begin
+    select SEQUENCE_REVIEWS.nextval into :NEW.ID_REVIEW from dual;
+end;
 /
 
-CREATE SEQUENCE SEQUENCE_MAIL
-START WITH 1
-INCREMENT BY 1
-NOMINVALUE
-NOMAXVALUE;
+create sequence SEQUENCE_MAIL
+start with 1
+increment by 1
+nominvalue
+nomaxvalue;
 
-CREATE OR REPLACE TRIGGER TRIGGER_ID_MAIL
-BEFORE INSERT ON MAIL
-FOR EACH ROW
-BEGIN
-    SELECT SEQUENCE_MAIL.NEXTVAL INTO :NEW.ID_MAIL FROM dual;
-END;
+create or replace trigger TRIGGER_ID_MAIL
+before insert on MAIL
+for each row
+begin
+    select SEQUENCE_MAIL.nextval into :NEW.ID_MAIL from dual;
+end;
 /
+
+
+create table AUTHORS
+(
+    ID_AUTHOR   NUMBER not null
+        constraint PK_ID_AUTHOR
+            primary key,
+    A_NAME      VARCHAR2(100),
+    BIOGRAPHY   VARCHAR2(500),
+    BIRTHDATE   DATE,
+    DEATHDATE   DATE,
+    NACIONALITY VARCHAR2(100)
+);
+
+create table USERS
+(
+    ID_USER   NUMBER not null
+        constraint PK_ID_USER
+            primary key,
+    U_NAME    VARCHAR2(100),
+    USERNAME  VARCHAR2(50),
+    PASWORD   VARCHAR2(50),
+    BIOGRAPHY VARCHAR2(500) default ' ',
+    EMAIL     VARCHAR2(100),
+    ROLE      VARCHAR2(10)  default 'USER'
+);
+
+
+create table GENRES
+(
+    ID_GENRE    NUMBER not null
+        constraint PK_ID_GENRE
+            primary key,
+    G_NAME      VARCHAR2(100),
+    DESCRIPTION VARCHAR2(500)
+);
+
+
+create table BOOKS
+(
+    ISBN        VARCHAR2(30) not null
+        constraint PK_ISBN
+            primary key,
+    ID_AUTHOR   NUMBER
+        constraint FK_ID_AUTHOR_BOOKS
+            references AUTHORS,
+    ID_GENRE    NUMBER
+        constraint FK_ID_GENRE_BOOKS
+            references GENRES,
+    TITLE       VARCHAR2(100),
+    DESCRIPTION VARCHAR2(500),
+    PAGES       NUMBER
+);
+
+create table REVIEWS
+(
+    ID_REVIEW   NUMBER not null
+        constraint PK_ID_REVIEW
+            primary key,
+    ISBN        VARCHAR2(30)
+        constraint FK_ISBN_REVIEWS
+            references BOOKS,
+    ID_USER     NUMBER
+        constraint FK_ID_USER_BOOKS
+            references USERS,
+    TITLE       VARCHAR2(50),
+    DESCRIPTION VARCHAR2(500),
+    STARS       NUMBER
+);
+
+
+create table USERLIBRARY
+(
+    ISBN    VARCHAR2(30)
+        constraint FK_ISBN_USERLIBRARY
+            references BOOKS,
+    ID_USER NUMBER
+        constraint FK_ID_USER_USERLIBRARY
+            references USERS,
+    STATUS  VARCHAR2(30),
+    PAGE    NUMBER
+);
+
+create table MAIL
+(
+    ID_MAIL      NUMBER,
+    ID_USER_FROM NUMBER
+        constraint FK_ID_USER_FROM_MAIL
+            references USERS,
+    ID_USER_TO   NUMBER
+        constraint FK_ID_USER_TO_MAIL
+            references USERS,
+    TIMESTAMP_M  DATE,
+    MESSAGE      VARCHAR2(500)
+);
+
 
