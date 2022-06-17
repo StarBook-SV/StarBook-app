@@ -7,9 +7,9 @@
 <%@ page import="java.sql.SQLException" %>
 <html>
 <%
-    String n=(String)session.getAttribute("username");
-    String r=(String)session.getAttribute("role");
-    if(n != null){
+    String n = (String) session.getAttribute("username");
+    String r = (String) session.getAttribute("role");
+    if (n != null) {
         //Si el usuario no es null, cambia unos datos
     }
 
@@ -89,23 +89,28 @@
             white-space: nowrap;
             -webkit-overflow-scrolling: touch;
         }
-        .img-card-s{
+
+        .img-card-s {
             object-fit: scale-down;
             max-height: 300px;
         }
-        .card-body{
-            height: 360px ;
-                    }
+
+        .card-body {
+            height: 360px;
+        }
+
         .d2-flex {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             align-items: flex-start;
         }
-        .book-title{
+
+        .book-title {
             margin-left: 5%;
         }
-        .w100{
+
+        .w100 {
             width: 100%;
         }
     </style>
@@ -115,10 +120,11 @@
     <jsp:include page="header.jsp"/>
 </header>
 <main>
-    <section class="py-5 text-center container">
+    <section class="py-4 text-center container">
         <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
-                <h1 class="fw-light">StarBook</h1>
+                <img src="img/Logo.png" class="d-block img-fluid m-auto" alt="StarBook">
+
                 <p class="lead text-muted">StarBook is your application to share your book reviews with other users.</p>
                 <p>
                     <a href="listGenres.jsp" class="btn btn-primary my-2">Search by genre </a>
@@ -136,32 +142,39 @@
                 <%
                     BookDAO bookDAO = new BookDAO(connection);
                     List<Book> books = new ArrayList<>();
-                    try{
+                    try {
                         books = bookDAO.getLastBooks();
-                    } catch (SQLException sqle){
+                    } catch (SQLException sqle) {
 
                     } finally {
                         database.close();
                     }
-                    for(Book book : books){
+                    for (Book book : books) {
                 %>
                 <div class="col">
                     <div class="card shadow-sm">
-                        <object class="card-img-top img-card-s" data="https://covers.openlibrary.org/b/isbn/<%=book.getISBN()%>-M.jpg?default=false" type="image/jpg" alt="<%=book.getTitle()%>" title="<%=book.getTitle()%>"  width="100%" height="100%">
-                            <img class="card-img-top img-card-s" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png" height="100%" width="100%"/>
+                        <object class="card-img-top img-card-s"
+                                data="https://covers.openlibrary.org/b/isbn/<%=book.getISBN()%>-M.jpg?default=false"
+                                type="image/jpg" alt="<%=book.getTitle()%>" title="<%=book.getTitle()%>" width="100%"
+                                height="100%">
+                            <img class="card-img-top img-card-s"
+                                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png"
+                                 height="100%" width="100%"/>
                         </object>
-                        <h2 class="book-title"><%=book.getTitle()%></h2>
-                     <!--<text x="50%" y="50%" fill="#eceeef" dy=".3em"><%=book.getTitle()%></text>-->
+                        <h2 class="book-title"><%=book.getTitle()%>
+                        </h2>
+                        <!--<text x="50%" y="50%" fill="#eceeef" dy=".3em"><%=book.getTitle()%></text>-->
 
                         <div class="card-body d2-flex">
-                            <p class="card-text"><%=book.getDescription()%></p>
-                            <div class="d-flex justify-content-between align-items-center flex-row w100" >
-                                <div class="btn-group" >
+                            <p class="card-text"><%=book.getDescription()%>
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center flex-row w100">
+                                <div class="btn-group">
                                     <%
-                                        if(r != null && r.equals("MGR")){
-                                            out.println("<a class=\"btn btn-sm btn-outline-secondary\" href=addBook.jsp?ISBN="+ book.getISBN() +" role=\"button\">Edit</a>");
+                                        if (r != null && r.equals("MGR")) {
+                                            out.println("<a class=\"btn btn-sm btn-outline-secondary\" href=addBook.jsp?ISBN=" + book.getISBN() + " role=\"button\">Edit</a>");
                                         }
-                                        out.println("<a class=\"btn btn-sm btn-outline-secondary\" href=bookDetails.jsp?ISBN="+ book.getISBN() +" role=\"button\">View</a>");
+                                        out.println("<a class=\"btn btn-sm btn-outline-secondary\" href=bookDetails.jsp?ISBN=" + book.getISBN() + " role=\"button\">View</a>");
                                     %>
 
                                 </div>

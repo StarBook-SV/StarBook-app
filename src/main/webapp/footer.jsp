@@ -74,7 +74,7 @@
     </style>
   </head>
   <body>
-      <footer>
+      <footer class="fixfooter">
         <div class="redes-sociales">
           <a href="https://github.com/"><i class="bi bi-github" href="#"></i></a>
           <a href="https://twitter.com/"><i class="bi bi-twitter"></i></a>
