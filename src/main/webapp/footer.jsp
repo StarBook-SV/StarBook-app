@@ -13,9 +13,10 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.98.0">
-    <title>Album example · Bootstrap v5.2</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/album/">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 
@@ -34,30 +35,9 @@
         }
       }
 
-      .b-example-divider {
-        height: 3rem;
-        background-color: rgba(0, 0, 0, .1);
-        border: solid rgba(0, 0, 0, .15);
-        border-width: 1px 0;
-        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
-      }
-
-      .b-example-vr {
-        flex-shrink: 0;
-        width: 1.5rem;
-        height: 100vh;
-      }
-
       .bi {
         vertical-align: -.125em;
         fill: currentColor;
-      }
-
-      .nav-scroller {
-        position: relative;
-        z-index: 2;
-        height: 2.75rem;
-        overflow-y: hidden;
       }
 
       .nav-scroller .nav {
@@ -70,16 +50,38 @@
         white-space: nowrap;
         -webkit-overflow-scrolling: touch;
       }
+
+      .redes-sociales{
+        width: 100%;
+        display: flex;
+        margin: auto;
+        justify-content: space-evenly;
+        background: white;
+      }
+
+      .redes-sociales i{
+        font-size: 50px;
+        color: black;
+        padding: 30px;
+      }
+
+      .redes-sociales p{
+        font-size: 15px;
+        color: gray;
+      }
+
+
     </style>
   </head>
   <body>
-      <footer class="text-muted py-5">
-        <div class="container">
-          <p class="float-end mb-1">
-            <a href="#">Back to top</a>
-          </p>
-          <p class="mb-1">Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-          <p class="mb-0">New to Bootstrap? <a href="/">Visit the homepage</a> or read our <a href="/docs/5.2/getting-started/introduction/">getting started guide</a>.</p>
+      <footer>
+        <div class="redes-sociales">
+          <a href="https://github.com/"><i class="bi bi-github" href="#"></i></a>
+          <a href="https://twitter.com/"><i class="bi bi-twitter"></i></a>
+          <a href="https://es-es.facebook.com/"><i class="bi bi-facebook"></i></a>
+        </div>
+        <div class="redes-sociales">
+          <p>Copyright (c) 2022 SanValero.StarBook All Rights Reserved</p>
         </div>
       </footer>
 
