@@ -1,17 +1,15 @@
 <%@ page import="com.starbook.app.dao.Database" %>
 <%@ page import="java.sql.Connection" %>
-<%@ page import="com.starbook.app.domain.Book" %>
-<%@ page import="com.starbook.app.domain.Author" %>
 <%@ page import="com.starbook.app.util.AuxiliaryFunctions" %>
 <%@ page import="com.starbook.app.dao.ReviewDAO" %>
 <%@ page import="java.sql.SQLException" %>
-<%@ page import="com.starbook.app.domain.Review" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.starbook.app.dao.UserDAO" %>
-<%@ page import="com.starbook.app.domain.User" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="com.starbook.app.dao.UserLibraryDAO" %>
+<%@ page import="com.starbook.app.domain.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <%
@@ -41,11 +39,15 @@
 
     List<Review> reviews = new ArrayList<>();
     List<User> users = new ArrayList<>();
+    UserLibrary userLibrary = null;
     ReviewDAO reviewDAO = new ReviewDAO(connection);
     UserDAO userDAO = new UserDAO(connection);
+    UserLibraryDAO userLibraryDAO = new UserLibraryDAO(connection);
     try {
         reviews = reviewDAO.findAllByISBN(ISBN);
         users = userDAO.findAll();
+        userLibrary = userLibraryDAO.findByISBNandUser(ISBN, idUser);
+
     } catch (SQLException e) {
 
     } finally {
@@ -65,7 +67,7 @@
     }
 %>
 <head>
-    <title>Title</title>
+    <title><% if(book != null){out.print(book.getTitle());} %></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
@@ -414,6 +416,9 @@
                         <div>
                             <i class="bi bi-person"></i><span class="author-no"><% if(author != null){out.print(author.getName());} %></span>
                         </div>
+                        <div>
+                            <i class="bi bi-book"></i><span class="author-no"><% if(book != null){out.print(book.getPages());} %></span>
+                        </div>
                     </div>
                     <p class="product-description"><% if(book != null){out.print(book.getDescription());} %></p>
                     <%
@@ -423,13 +428,16 @@
                         <form id="formUpdate">
                             <select class="form-control" id="option" name="option">
                                 <option>Not interested</option>
-                                <option>Pending</option>
-                                <option>Reading</option>
-                                <option>Read</option>
+                                <option <% if(userLibrary != null && userLibrary.getStatus().equals("PENDING")){out.print("selected");} %>>Pending</option>
+                                <option <% if(userLibrary != null && userLibrary.getStatus().equals("READING")){out.print("selected");} %>>Reading</option>
+                                <option <% if(userLibrary != null && userLibrary.getStatus().equals("READ")){out.print("selected");} %>>Read</option>
                             </select>
                             <div class="form-group">
                                 <label for="pages">If you are reading the book, you can save your progress</label>
-                                <input type="text" class="form-control" id="pages" name="pages" value="0">
+                                <input type="number" class="form-control" id="pages" name="pages" min="0" max="<% if(book != null){out.print(book.getPages());} else {out.print("0");}%>" value="<% if(userLibrary != null && userLibrary.getStatus().equals("READING")){out.print(userLibrary.getPage());}else{out.print("0");}%>">
+                                <div class="progress t">
+                                    <div class="progress-bar progress-bar-striped bg-info " role="progressbar" style="width: <% if(userLibrary != null && userLibrary.getStatus().equals("READING")){out.print(((userLibrary.getPage()*100)/book.getPages()));}else{out.print("0");}%>%" aria-valuenow="<% if(userLibrary != null && userLibrary.getStatus().equals("READING")){out.print(userLibrary.getPage());}else{out.print("0");}%>" aria-valuemin="0" aria-valuemax="<%=book.getPages()%>"></div>
+                                </div>
                                 <input type="hidden" class="form-control" id="ISBN" name="ISBN" <% out.println("value=\"" + book.getISBN() + "\""); %>>
                                 <input type="hidden" class="form-control" id="idUser" name="idUser" <% out.println("value=\"" + idUser + "\""); %>>
 
