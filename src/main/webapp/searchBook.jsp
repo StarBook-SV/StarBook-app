@@ -99,8 +99,9 @@
             %>
             <article class="search-result row">
                 <div class="col-xs-12 col-sm-12 col-md-3">
-                    <a href="bookDetails.jsp?ISBN=<%=book.getISBN()%>" title="<%=book.getTitle()%>" class="thumbnail"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/240px-No_image_available.svg.png" alt="<%=book.getTitle()%>" /></a>
-                </div>
+                    <object class="card-img-top img-card-s" data="https://covers.openlibrary.org/b/isbn/<%=book.getISBN()%>-M.jpg?default=false" type="image/jpg" alt="<%=book.getTitle()%>" title="<%=book.getTitle()%>"  width="100%" height="100%">
+                        <img class="card-img-top img-card-s" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png" height="100%" width="100%"/>
+                    </object>                </div>
                 <div class="col-xs-12 col-sm-12 col-md-2">
                     <ul class="meta-search">
                         <li><i class="bi bi-person"></i> <span><%=listAuthor.get(book.getId_author()).getName()%></span></li>

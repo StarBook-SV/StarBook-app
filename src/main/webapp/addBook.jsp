@@ -52,11 +52,27 @@
     <!-- Comentario -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <% if (edit) { %>
+    <title>Edit a book</title>
+            <% }
+                        else {
+                              %>
     <title>Add a book to StarApp</title>
+    <%
+        }
+    %>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+    <style>
+    .fixfooter {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    }
+    </style>
 </head>
 
 <body>
@@ -75,7 +91,16 @@
     });
 </script>
 <h2>
+    <% if (edit) { %>
+    <p class="text-center">Edit a book</p>
+    <% }
+    else {
+    %>
     <p class="text-center">Add a book to StarApp</p>
+    <%
+        }
+    %>
+
 </h2>
 <div class="container">
     <form class="container">
@@ -145,7 +170,7 @@
             <label for="pages" class="col-sm-2 col-form-label">Nº of pages</label>
             <div class="col-sm-10">
                 <input type="number" class="form-control" id="pages" name="pages"
-                       <% if (edit){ %>value="<%= book.getPages()%>" <%}%>required>
+                       <% if (edit){ %>value="<%= book.getPages()%>" <%}%>required min="1">
             </div>
         </div>
 

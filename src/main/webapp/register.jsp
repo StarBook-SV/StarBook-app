@@ -42,7 +42,12 @@
             border-top-left-radius: 0;
             border-top-right-radius: 0;
         }
-
+        .fixfooter {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+        }
     </style>
 
 
@@ -68,7 +73,6 @@
 </header>
 
 <h2 class="text-center">Register to StarApp</h2>
-
 <main class = "form-signin">
     <div class="container">
         <form class="form-signin">
