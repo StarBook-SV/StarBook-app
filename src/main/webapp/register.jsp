@@ -60,7 +60,7 @@
             event.preventDefault();
             var formValue = $(this).serialize();
             $.post("register", formValue, function (data) {
-                if (data === "/StarBook_app_war/login.jsp") {
+                if (data === "/StarBook/login.jsp") {
                     window.location.href = data;
                 } else
                     $("#result").html(data);

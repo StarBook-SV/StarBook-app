@@ -33,7 +33,7 @@ public class RegisterServlet extends HttpServlet {
         try {
             if (userDAO.findByUsername(username).isPresent()) throw new UsernameAlreadyExistsException();
             userDAO.addUser(user);
-            out.println("/StarBook_app_war/login.jsp");
+            out.println("/StarBook/login.jsp");
         } catch (SQLException sqle) {
             out.println("<div class='alert alert-danger' role='alert'>An error has occurred</div>");
         } catch (UsernameAlreadyExistsException ue) {
