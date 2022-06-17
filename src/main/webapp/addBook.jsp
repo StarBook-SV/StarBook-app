@@ -163,7 +163,7 @@
             <label for="pages" class="col-sm-2 col-form-label">Nº of pages</label>
             <div class="col-sm-10">
                 <input type="number" class="form-control" id="pages" name="pages"
-                       <% if (edit){ %>value="<%= book.getPages()%>" <%}%>required>
+                       <% if (edit){ %>value="<%= book.getPages()%>" <%}%>required min="1">
             </div>
         </div>
 
