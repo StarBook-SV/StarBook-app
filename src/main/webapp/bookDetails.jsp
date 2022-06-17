@@ -65,6 +65,10 @@
     for(User user : users){
         nameByID.put(user.getIdUser(), user.getName());
     }
+
+    if(book == null){
+        book = new Book("000", 1, 1," "," ", 1);
+    }
 %>
 <head>
     <title><% if(book != null){out.print(book.getTitle());} %></title>
